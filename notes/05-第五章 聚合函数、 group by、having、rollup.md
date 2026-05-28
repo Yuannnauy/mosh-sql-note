@@ -93,3 +93,33 @@ order by date
 ```
 
 ## having子句
+
+```sql
+-- 想要销售额超过500的客户，不能：
+select
+  client_id
+  sum(invoice_total) as total_sales
+from invoices
+where total_sales>500
+group by client_id
+-- 因为where执行的时候group by还没有被执行，没有total_sales列，因此要用having：
+select
+  client_id
+  sum(invoice_total) as total_sales
+from invoices
+group by client_id
+having total_sales>500
+-- having在group by之后筛选数据
+
+-- 想要选择销售额超过500，发票书超过5的
+select
+  client_id
+  sum(invoice_total) as total_sales
+  count(*) as number_of_invoices
+from invoices
+group by client_id
+having total_sales>500 and、number_of_invoices>5
+-- having中用到的列一定是select中选过的，而where不需要
+-- exercise：
+use sql_store;
+select *
