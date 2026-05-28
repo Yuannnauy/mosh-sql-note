@@ -120,6 +120,48 @@ from invoices
 group by client_id
 having total_sales>500 and、number_of_invoices>5
 -- having中用到的列一定是select中选过的，而where不需要
+
 -- exercise：
-use sql_store;
-select *
+select 
+c.customer_id,
+c.first_name,
+c.last_name,
+sum(oi.quantity*oi.unit_price) as total_sales
+from customers c
+join orders o
+using (customer_id)
+join order_items oi
+using (order_id)
+where state='VA'
+group by 
+c.customer_id,
+c.first_name,
+c.last_name
+having total_sales>100
+```
+
+## rollup运算符
+```sql
+select
+  client_id
+  sum(invoice_total) as total_sales
+from invoices
+group by client_id with roll up
+-- rollup汇总整个结果集，用于聚合值的列
+select
+  state,
+  city,
+  sum(invoice_total) as total_sales
+from invoices i
+join clients c using(clients_id)
+group by state,city with roll up
+-- exercise
+SELECT 
+pm. name,
+sum(amount) as total
+FROM clients
+join payments p using (client_id)
+join payment_methods pm 
+where p. payment_method=pm. payment_method_id
+group by pm. name with rollup
+```
