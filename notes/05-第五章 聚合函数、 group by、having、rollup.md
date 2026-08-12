@@ -111,6 +111,13 @@ group by client_id
 having total_sales>500
 -- having在group by之后筛选数据
 
+-- 真正的执行顺序：
+from invoices
+where ...
+group by client_id
+having ...
+select ...
+
 -- 想要选择销售额超过500，发票书超过5的
 select
   client_id
