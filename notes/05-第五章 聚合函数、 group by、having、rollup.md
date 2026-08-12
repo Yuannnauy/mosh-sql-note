@@ -172,3 +172,30 @@ join payment_methods pm
 where p. payment_method=pm. payment_method_id
 group by pm. name with rollup
 ```
+## SQL通用逻辑执行顺序
+1. FROM / JOIN
+   先确定数据来源，把表拿出来，处理表连接
+
+2. WHERE
+   对原始行进行筛选
+
+3. GROUP BY
+   把筛选后的行分组
+
+4. 聚合函数计算
+   对每个分组计算 sum、count、avg、max、min 等聚合结果
+
+5. HAVING
+   对分组后的结果进行筛选
+
+6. SELECT
+   决定最终显示哪些列、表达式、聚合结果，并设置别名
+
+7. DISTINCT
+   去重
+
+8. ORDER BY
+   排序
+
+9. LIMIT / OFFSET
+   限制返回数量、跳过部分结果
